@@ -8,6 +8,17 @@
                     "province": "İl"
                 }
             },
+            "options": {
+                "step": {
+                    "init": {
+                        "title": "Ayarlar",
+                        "description": "Hava Durumu entegrasyonu ayarları",
+                        "data": {
+                            "update_interval": "Güncelleme Sıklığı"
+                        }
+                    }
+                }
+            },
             "district": {
                 "title": "İlçe Seçimi",
                 "description": "{province} ilinin ilçesini seçin.",

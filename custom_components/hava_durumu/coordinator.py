@@ -30,11 +30,14 @@ class HavaDurumuDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
         session = async_get_clientsession(hass)
         self.api = MGMApiClient(session)
 
+        # Get update interval from options, default to 30 minutes
+        update_interval = int(entry.options.get("update_interval", UPDATE_INTERVAL))
+
         super().__init__(
             hass,
             _LOGGER,
             name=DOMAIN,
-            update_interval=timedelta(seconds=UPDATE_INTERVAL),
+            update_interval=timedelta(seconds=update_interval),
         )
 
     async def _async_update_data(self) -> dict[str, Any]:

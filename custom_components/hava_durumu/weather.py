@@ -99,6 +99,33 @@ class HavaDurumuWeather(SingleCoordinatorWeatherEntity):
         return None
 
     @property
+    def native_temperature_low(self) -> float | None:
+        """Return today's minimum temperature from forecast."""
+        if self.coordinator.data:
+            daily_data = self.coordinator.data.get("daily", [])
+            if daily_data and len(daily_data) > 0:
+                return daily_data[0].get("enDusuk")
+        return None
+
+    @property
+    def native_temperature_high(self) -> float | None:
+        """Return today's maximum temperature from forecast."""
+        if self.coordinator.data:
+            daily_data = self.coordinator.data.get("daily", [])
+            if daily_data and len(daily_data) > 0:
+                return daily_data[0].get("enYuksek")
+        return None
+
+    @property
+    def native_precipitation(self) -> float | None:
+        """Return precipitation amount."""
+        if self._current_data:
+            yagis = self._current_data.get("yagis1Saat")
+            if yagis and yagis != -9999:
+                return yagis
+        return None
+
+    @property
     def humidity(self) -> float | None:
         """Return the humidity."""
         if self._current_data:

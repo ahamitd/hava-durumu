@@ -163,3 +163,48 @@ class HavaDurumuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             errors=errors,
             description_placeholders={"province": self._selected_province},
         )
+
+    @staticmethod
+    def async_get_options_flow(config_entry: config_entries.ConfigEntry) -> config_entries.OptionsFlow:
+        """Get the options flow for this handler."""
+        return HavaDurumuOptionsFlow(config_entry)
+
+
+class HavaDurumuOptionsFlow(config_entries.OptionsFlow):
+    """Handle options flow for Hava Durumu."""
+
+    def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
+        """Initialize options flow."""
+        self.config_entry = config_entry
+
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            return self.async_create_entry(title="", data=user_input)
+
+        # Update interval options (in minutes)
+        update_intervals = {
+            "300": "5 dakika",
+            "600": "10 dakika",
+            "900": "15 dakika",
+            "1800": "30 dakika",
+            "3600": "60 dakika",
+        }
+
+        current_interval = str(
+            self.config_entry.options.get("update_interval", 1800)
+        )
+
+        return self.async_show_form(
+            step_id="init",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        "update_interval",
+                        default=current_interval,
+                    ): vol.In(update_intervals),
+                }
+            ),
+        )
