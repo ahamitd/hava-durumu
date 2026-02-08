@@ -83,7 +83,7 @@ class HavaDurumuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 try:
                     session = async_get_clientsession(self.hass)
                     client = MGMApiClient(session)
-                    self._districts = await client.search_locations(province_name)
+                    self._districts = await client.search_locations(province_name, limit=100)
                 except MGMApiError:
                     errors["base"] = "cannot_connect"
                     return self.async_show_form(
