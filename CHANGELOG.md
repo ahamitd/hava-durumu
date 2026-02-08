@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.1] - 2026-02-08
+
+### Fixed
+- İlçe seçimi sorunu düzeltildi
+- Config flow API yapısına uygun hale getirildi
+
 ## [1.0.0] - 2026-02-08
 
 ### Added
