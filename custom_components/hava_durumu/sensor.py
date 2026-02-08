@@ -119,6 +119,19 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
             data.get("hadiseKodu", ""), data.get("hadiseKodu", "")
         ),
     ),
+    HavaDurumuSensorEntityDescription(
+        key="alert_count",
+        translation_key="alert_count",
+        icon="mdi:alert",
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=None,  # Will be handled separately
+    ),
+    HavaDurumuSensorEntityDescription(
+        key="alert_details",
+        translation_key="alert_details",
+        icon="mdi:alert-circle",
+        value_fn=None,  # Will be handled separately
+    ),
 )
 
 
@@ -168,6 +181,25 @@ class HavaDurumuSensor(CoordinatorEntity[HavaDurumuDataUpdateCoordinator], Senso
         if not self.coordinator.data:
             return None
         
+        # Handle alert sensors separately
+        if self.entity_description.key == "alert_count":
+            alerts = self.coordinator.data.get("alerts", [])
+            meteoalarm = self.coordinator.data.get("meteoalarm", [])
+            return len(alerts) + len(meteoalarm)
+        
+        if self.entity_description.key == "alert_details":
+            alerts = self.coordinator.data.get("alerts", [])
+            meteoalarm = self.coordinator.data.get("meteoalarm", [])
+            
+            if not alerts and not meteoalarm:
+                return "Aktif uyarı yok"
+            
+            # Format first alert
+            if alerts:
+                return alerts[0].get("baslik", "Uyarı")
+            if meteoalarm:
+                return meteoalarm[0].get("aciklama", "Uyarı")
+        
         current = self.coordinator.data.get("current")
         if not current:
             return None
@@ -176,3 +208,42 @@ class HavaDurumuSensor(CoordinatorEntity[HavaDurumuDataUpdateCoordinator], Senso
             return self.entity_description.value_fn(current)
         
         return None
+    
+    @property
+    def extra_state_attributes(self) -> dict[str, Any]:
+        """Return additional state attributes for alert sensors."""
+        if self.entity_description.key not in ["alert_count", "alert_details"]:
+            return {}
+        
+        if not self.coordinator.data:
+            return {}
+        
+        attrs: dict[str, Any] = {}
+        alerts = self.coordinator.data.get("alerts", [])
+        meteoalarm = self.coordinator.data.get("meteoalarm", [])
+        
+        # Format all alerts
+        all_alerts = []
+        
+        for alert in alerts:
+            all_alerts.append({
+                "type": "MGM Uyarısı",
+                "title": alert.get("baslik", ""),
+                "description": alert.get("aciklama", ""),
+                "date": alert.get("baslangic", ""),
+                "event_type": alert.get("hadiseCinsi", ""),
+            })
+        
+        for alert in meteoalarm:
+            all_alerts.append({
+                "type": "MeteoAlarm",
+                "level": alert.get("seviye", ""),
+                "area": alert.get("bolge", ""),
+                "description": alert.get("aciklama", ""),
+            })
+        
+        if all_alerts:
+            attrs["alerts"] = all_alerts
+            attrs["total_alerts"] = len(all_alerts)
+        
+        return attrs

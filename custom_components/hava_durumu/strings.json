@@ -68,6 +68,12 @@
             },
             "condition_text": {
                 "name": "Weather Condition"
+            },
+            "alert_count": {
+                "name": "Alert Count"
+            },
+            "alert_details": {
+                "name": "Alert Details"
             }
         },
         "binary_sensor": {

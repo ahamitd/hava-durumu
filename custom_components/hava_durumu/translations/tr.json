@@ -68,6 +68,12 @@
             },
             "condition_text": {
                 "name": "Hava Durumu"
+            },
+            "alert_count": {
+                "name": "Uyarı Sayısı"
+            },
+            "alert_details": {
+                "name": "Uyarı Detayları"
             }
         },
         "binary_sensor": {
