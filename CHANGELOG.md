@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.3] - 2026-02-08
+
+### Fixed
+- ✅ 5 günlük hava durumu tahmini artık gösteriliyor
+- ✅ Min/Max sıcaklık değerleri eklendi
+- ✅ Bulutluluk ve görüş mesafesi sensörleri düzeltildi
+- ✅ Hava durumu uyarısı "Güvensiz" hatası giderildi
+- ✅ API alan adları düzeltildi (gorus, kapalilik, yagis)
+
 ## [1.0.2] - 2026-02-08
 
 ### Fixed
