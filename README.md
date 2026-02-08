@@ -9,7 +9,7 @@ Türkiye Meteoroloji Genel Müdürlüğü (MGM) verilerini kullanan Home Assista
 - 🌡️ Anlık hava durumu bilgileri
 - 📅 5 günlük tahmin (min/max sıcaklık)
 - ⏰ Saatlik tahmin
-- 💧 10 farklı sensör (nem, rüzgar, basınç, yağış, vb.)
+- 💧 13 farklı sensör (sıcaklık, nem, rüzgar, basınç, yağış, uyarılar, vb.)
 - ⚠️ Meteorolojik uyarılar ve otomatik bildirimler
 - ⚙️ Yapılandırılabilir güncelleme sıklığı (5-60 dakika)
 - 🇹🇷 Türkçe ve İngilizce dil desteği
@@ -51,6 +51,7 @@ show_forecast: true
 
 Entegrasyon aşağıdaki sensörleri oluşturur:
 
+- `sensor.ILCE_IL_sicaklik` - Sıcaklık (°C)
 - `sensor.ILCE_IL_nem` - Nem oranı (%)
 - `sensor.ILCE_IL_ruzgar_hizi` - Rüzgar hızı (km/h)
 - `sensor.ILCE_IL_ruzgar_yonu` - Rüzgar yönü (°)
