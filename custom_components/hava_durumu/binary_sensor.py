@@ -36,7 +36,6 @@ class HavaDurumuAlertSensor(
 
     _attr_has_entity_name = True
     _attr_translation_key = "weather_alert"
-    _attr_device_class = BinarySensorDeviceClass.SAFETY
     _attr_attribution = ATTRIBUTION
     _previous_alert_count: int = 0
 

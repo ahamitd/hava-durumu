@@ -130,7 +130,9 @@ class HavaDurumuWeather(SingleCoordinatorWeatherEntity):
     def native_visibility(self) -> float | None:
         """Return the visibility in meters."""
         if self._current_data:
-            return self._current_data.get("gpisoruss")
+            gorus = self._current_data.get("gorus")
+            if gorus and gorus != -9999:
+                return gorus
         return None
 
     @property
@@ -143,28 +145,38 @@ class HavaDurumuWeather(SingleCoordinatorWeatherEntity):
                 attrs["condition_text"] = CONDITION_DESCRIPTIONS.get(hadise, hadise)
             
             # Cloud coverage
-            if "kappilorta" in self._current_data:
-                attrs["cloud_coverage"] = self._current_data.get("kappilorta")
+            kapalilik = self._current_data.get("kapalilik")
+            if kapalilik and kapalilik != -9999:
+                attrs["cloud_coverage"] = kapalilik
             
             # Precipitation data
-            if "ypiagpisipis10Dk" in self._current_data:
-                attrs["precipitation_10min"] = self._current_data.get("ypiagpisipis10Dk")
-            if "ypiagpisipis1Saat" in self._current_data:
-                attrs["precipitation_1h"] = self._current_data.get("ypiagpisipis1Saat")
-            if "ypiagpisipis6Saat" in self._current_data:
-                attrs["precipitation_6h"] = self._current_data.get("ypiagpisipis6Saat")
-            if "ypiagpisipis12Saat" in self._current_data:
-                attrs["precipitation_12h"] = self._current_data.get("ypiagpisipis12Saat")
-            if "ypiagpisipis24Saat" in self._current_data:
-                attrs["precipitation_24h"] = self._current_data.get("ypiagpisipis24Saat")
+            yagis_10dk = self._current_data.get("yagis10Dk")
+            if yagis_10dk and yagis_10dk != -9999:
+                attrs["precipitation_10min"] = yagis_10dk
+            
+            yagis_1saat = self._current_data.get("yagis1Saat")
+            if yagis_1saat and yagis_1saat != -9999:
+                attrs["precipitation_1h"] = yagis_1saat
+            
+            yagis_6saat = self._current_data.get("yagis6Saat")
+            if yagis_6saat and yagis_6saat != -9999:
+                attrs["precipitation_6h"] = yagis_6saat
+            
+            yagis_12saat = self._current_data.get("yagis12Saat")
+            if yagis_12saat and yagis_12saat != -9999:
+                attrs["precipitation_12h"] = yagis_12saat
+            
+            yagis_24saat = self._current_data.get("yagis24Saat")
+            if yagis_24saat and yagis_24saat != -9999:
+                attrs["precipitation_24h"] = yagis_24saat
             
             # Actual pressure
             if "aktuelBasinc" in self._current_data:
                 attrs["actual_pressure"] = self._current_data.get("aktuelBasinc")
             
             # Data time
-            if "vpieriZamanpi" in self._current_data:
-                attrs["data_time"] = self._current_data.get("vpieriZamanpi")
+            if "veriZamani" in self._current_data:
+                attrs["data_time"] = self._current_data.get("veriZamani")
         
         return attrs
 

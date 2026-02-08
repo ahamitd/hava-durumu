@@ -128,11 +128,37 @@ class MGMApiClient:
         """Get daily forecast data (5 days)."""
         result = await self._request(
             ENDPOINT_DAILY,
-            params={"merkezid": merkez_id}
+            params={"istno": merkez_id}
         )
         if result is None or not result:
             return []
-        return result
+        
+        # API returns data in format: enDusukGun0, enYuksekGun0, etc.
+        # We need to transform this into a list of daily forecasts
+        if isinstance(result, list) and len(result) > 0:
+            raw_data = result[0]
+            forecasts = []
+            
+            # Process Gun0 through Gun5 (6 days total)
+            for i in range(6):
+                day_data = {
+                    "tarih": raw_data.get(f"tarihGun{i}"),
+                    "enDusuk": raw_data.get(f"enDusukGun{i}"),
+                    "enYuksek": raw_data.get(f"enYuksekGun{i}"),
+                    "hadise": raw_data.get(f"hadiseGun{i}"),
+                    "ruzgarHizi": raw_data.get(f"ruzgarHizGun{i}"),
+                    "ruzgarYonu": raw_data.get(f"ruzgarYonGun{i}"),
+                    "enDusukNem": raw_data.get(f"enDusukNemGun{i}"),
+                    "enYuksekNem": raw_data.get(f"enYuksekNemGun{i}"),
+                }
+                
+                # Only add if we have valid data
+                if day_data["tarih"]:
+                    forecasts.append(day_data)
+            
+            return forecasts
+        
+        return []
 
     async def get_alerts(self) -> list[dict[str, Any]]:
         """Get list of active weather alerts."""
