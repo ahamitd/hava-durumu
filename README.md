@@ -158,6 +158,37 @@ Entegrasyon ayarlarından güncelleme sıklığını değiştirebilirsiniz:
 
 **Not:** Varsayılan güncelleme sıklığı 30 dakikadır.
 
+## Sık Sorulan Sorular (SSS)
+
+### Bazı sensörler neden "bilinmeyen" veya "unavailable" gösteriyor?
+
+MGM API'si tüm meteoroloji istasyonlarında aynı sensörleri sağlamıyor. Bazı konumlarda belirli sensörler (örneğin basınç, görüş mesafesi, bulutluluk) mevcut değil veya veri gelmiyor.
+
+**Normal Davranış:**
+- ✅ Sensör "bilinmeyen" gösteriyorsa: MGM o konum için bu veriyi sağlamıyor
+- ✅ Sensör geçerli bir değer gösteriyorsa: Veri mevcut
+
+**Önceki Sürümlerde:**
+- ❌ Basınç: `-9999 hPa` (hatalı)
+- ❌ Görüş mesafesi: `-9999 m` (hatalı)
+
+**v1.5.1 ve Sonrası:**
+- ✅ Geçersiz değerler filtreleniyor
+- ✅ Sensör "bilinmeyen" gösteriyor (doğru)
+
+### Hangi sensörler her zaman mevcut?
+
+Aşağıdaki sensörler genellikle tüm konumlarda mevcuttur:
+- Sıcaklık
+- Nem
+- Rüzgar hızı ve yönü
+- Hava durumu açıklaması
+- Tahmin sensörleri (bugün/yarın)
+
+### Konumumu değiştirirsem ne olur?
+
+Entegrasyonu kaldırıp yeniden ekleyerek farklı bir il/ilçe seçebilirsiniz. Her konum için farklı sensörler mevcut olabilir.
+
 ## Veri Kaynağı
 
 Veriler T.C. Çevre, Şehircilik ve İklim Değişikliği Bakanlığı Meteoroloji Genel Müdürlüğü'nden alınmaktadır.
