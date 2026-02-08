@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.3.0] - 2026-02-08
+
+### Added
+- ✨ **Sıcaklık Sensörü** - `sensor.ILCE_IL_sicaklik` (anlık sıcaklık °C)
+- 🎨 **HACS İkonu** - Entegrasyon için özel ikon eklendi
+
+### Fixed
+- ✅ **MeteoAlarm Bildirimleri** - Boş MeteoAlarm girişleri artık gösterilmiyor
+- ✅ **İlçe Listesi** - Tüm ilçeler gösteriliyor (limit 15'ten 100'e çıkarıldı)
+
+### Changed
+- 📊 Toplam sensör sayısı 13'e çıktı
+
 ## [1.2.0] - 2026-02-08
 
 ### Added
