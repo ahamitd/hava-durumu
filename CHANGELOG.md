@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0] - 2026-02-08
+
+### Added
+- ✨ **Uyarı Sayısı Sensörü** - `sensor.ILCE_IL_uyari_sayisi` (aktif uyarı sayısını gösterir)
+- ✨ **Uyarı Detayları Sensörü** - `sensor.ILCE_IL_uyari_detaylari` (uyarı başlığını ve detaylarını gösterir)
+- 📊 Uyarı sensörlerinde tüm uyarıların listesi attributes'da
+
 ## [1.1.2] - 2026-02-08
 
 ### Fixed
