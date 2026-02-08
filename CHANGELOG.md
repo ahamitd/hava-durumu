@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.2] - 2026-02-08
+
+### Fixed
+- ✅ Ayarlar menüsü 500 hatası düzeltildi
+- ✅ JSON yapısı düzeltildi (strings.json, tr.json)
+
 ## [1.1.1] - 2026-02-08
 
 ### Fixed
