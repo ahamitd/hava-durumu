@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.4] - 2026-02-08
+
+### Changed
+- Güncelleme sıklığı 10 dakikadan 30 dakikaya çıkarıldı
+
 ## [1.0.3] - 2026-02-08
 
 ### Fixed
