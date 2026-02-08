@@ -3,20 +3,9 @@
         "step": {
             "user": {
                 "title": "İl Seçimi",
-                "description": "Hava durumu bilgisi almak istediğiniz ili seçin.",
+                "description": "Hava durumu verisi için il seçin.",
                 "data": {
                     "province": "İl"
-                }
-            },
-            "options": {
-                "step": {
-                    "init": {
-                        "title": "Ayarlar",
-                        "description": "Hava Durumu entegrasyonu ayarları",
-                        "data": {
-                            "update_interval": "Güncelleme Sıklığı"
-                        }
-                    }
                 }
             },
             "district": {
@@ -28,13 +17,24 @@
             }
         },
         "error": {
-            "cannot_connect": "MGM API'sine bağlanılamadı",
+            "cannot_connect": "MGM API'ye bağlanılamadı",
             "invalid_province": "Geçersiz il seçimi",
             "invalid_district": "Geçersiz ilçe seçimi",
-            "unknown": "Beklenmeyen bir hata oluştu"
+            "unknown": "Beklenmeyen hata"
         },
         "abort": {
             "already_configured": "Bu konum zaten yapılandırılmış"
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "title": "Ayarlar",
+                "description": "Hava Durumu entegrasyonu ayarları",
+                "data": {
+                    "update_interval": "Güncelleme Sıklığı"
+                }
+            }
         }
     },
     "entity": {
