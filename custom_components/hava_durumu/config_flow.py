@@ -41,7 +41,7 @@ class HavaDurumuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         """Initialize the config flow."""
-        self._provinces: dict[str, list[dict[str, Any]]] = {}
+        self._provinces: list[str] = []
         self._districts: list[dict[str, Any]] = []
         self._selected_province: str | None = None
 
@@ -55,18 +55,17 @@ class HavaDurumuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             try:
                 session = async_get_clientsession(self.hass)
                 client = MGMApiClient(session)
+                # Get only province centers for initial list
                 all_locations = await client.get_provinces()
                 
-                # Group by province
-                provinces_dict = {}
+                # Extract unique provinces
+                provinces_set = set()
                 for location in all_locations:
                     il = location.get("il", "")
-                    if il and il not in provinces_dict:
-                        provinces_dict[il] = []
                     if il:
-                        provinces_dict[il].append(location)
+                        provinces_set.add(il)
                 
-                self._provinces = provinces_dict
+                self._provinces = sorted(list(provinces_set))
             except MGMApiError:
                 errors["base"] = "cannot_connect"
                 return self.async_show_form(
@@ -80,19 +79,30 @@ class HavaDurumuConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             
             if province_name in self._provinces:
                 self._selected_province = province_name
-                self._districts = self._provinces[province_name]
+                # Fetch all districts for the selected province
+                try:
+                    session = async_get_clientsession(self.hass)
+                    client = MGMApiClient(session)
+                    self._districts = await client.search_locations(province_name)
+                except MGMApiError:
+                    errors["base"] = "cannot_connect"
+                    return self.async_show_form(
+                        step_id="user",
+                        data_schema=vol.Schema({
+                            vol.Required(CONF_PROVINCE): vol.In(self._provinces),
+                        }),
+                        errors=errors,
+                    )
+                
                 return await self.async_step_district()
             
             errors["base"] = "invalid_province"
 
-        # Create province selection dropdown
-        province_names = sorted(self._provinces.keys())
-        
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema(
                 {
-                    vol.Required(CONF_PROVINCE): vol.In(province_names),
+                    vol.Required(CONF_PROVINCE): vol.In(self._provinces),
                 }
             ),
             errors=errors,
