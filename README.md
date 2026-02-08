@@ -18,7 +18,7 @@ Türkiye Meteoroloji Genel Müdürlüğü (MGM) verilerini kullanan Home Assista
 ### HACS ile (Önerilen)
 
 1. HACS → Entegrasyonlar → Sağ üst menü → Özel Depolar
-2. Depo URL'sini ekleyin: `https://github.com/KULLANICI_ADI/hava-durumu`
+2. Depo URL'sini ekleyin: `https://github.com/ahamitd/hava-durumu`
 3. Kategori: Integration
 4. "Hava Durumu" entegrasyonunu arayın ve yükleyin
 5. Home Assistant'ı yeniden başlatın

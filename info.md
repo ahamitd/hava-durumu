@@ -51,4 +51,4 @@ entities:
 
 ### Destek
 
-Sorun bildirmek veya öneride bulunmak için [GitHub Issues](https://github.com/KULLANICI_ADI/hava-durumu/issues) kullanın.
+Sorun bildirmek veya öneride bulunmak için [GitHub Issues](https://github.com/ahamitd/hava-durumu/issues) kullanın.
