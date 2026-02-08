@@ -75,7 +75,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement=UnitOfLength.METERS,
         device_class=SensorDeviceClass.DISTANCE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("gpisoruss"),
+        value_fn=lambda data: data.get("gorus") if data.get("gorus") and data.get("gorus") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="precipitation_1h",
@@ -84,7 +84,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.PRECIPITATION,
         state_class=SensorStateClass.MEASUREMENT,
         icon="mdi:weather-rainy",
-        value_fn=lambda data: data.get("ypiagpisipis1Saat"),
+        value_fn=lambda data: data.get("yagis1Saat") if data.get("yagis1Saat") and data.get("yagis1Saat") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="precipitation_24h",
@@ -93,7 +93,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         device_class=SensorDeviceClass.PRECIPITATION,
         state_class=SensorStateClass.TOTAL_INCREASING,
         icon="mdi:weather-rainy",
-        value_fn=lambda data: data.get("ypiagpisipis24Saat"),
+        value_fn=lambda data: data.get("yagis24Saat") if data.get("yagis24Saat") and data.get("yagis24Saat") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="cloud_coverage",
@@ -101,7 +101,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement="okta",
         icon="mdi:cloud",
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("kappilorta"),
+        value_fn=lambda data: data.get("kapalilik") if data.get("kapalilik") and data.get("kapalilik") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="apparent_temperature",
