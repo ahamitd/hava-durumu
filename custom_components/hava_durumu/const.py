@@ -25,8 +25,8 @@ API_BASE_URL = "https://servis.mgm.gov.tr/mobile"
 API_AUTH_TOKEN = "0jTmRuHuhcOHntmuzkmJS/95CFj72gVR2+9wRYwta+A="
 API_USER_AGENT = "Meteoroloji/6.1.2 (com.mgm.Hava-Durumu; build:1; iOS 26.2.1) Alamofire/4.7.3"
 
-# Update interval in seconds (10 minutes)
-UPDATE_INTERVAL = 600
+# Update interval in seconds (30 minutes)
+UPDATE_INTERVAL = 1800
 
 # API Endpoints
 ENDPOINT_PROVINCES = "/merkezler/iller"
