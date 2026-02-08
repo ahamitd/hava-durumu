@@ -39,6 +39,9 @@
     },
     "entity": {
         "sensor": {
+            "temperature": {
+                "name": "Sıcaklık"
+            },
             "humidity": {
                 "name": "Nem"
             },

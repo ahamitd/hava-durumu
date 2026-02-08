@@ -38,6 +38,14 @@ class HavaDurumuSensorEntityDescription(SensorEntityDescription):
 
 SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
     HavaDurumuSensorEntityDescription(
+        key="temperature",
+        translation_key="temperature",
+        native_unit_of_measurement=UnitOfTemperature.CELSIUS,
+        device_class=SensorDeviceClass.TEMPERATURE,
+        state_class=SensorStateClass.MEASUREMENT,
+        value_fn=lambda data: data.get("sicaklik"),
+    ),
+    HavaDurumuSensorEntityDescription(
         key="humidity",
         translation_key="humidity",
         native_unit_of_measurement=PERCENTAGE,
