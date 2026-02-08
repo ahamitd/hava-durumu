@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.1] - 2026-02-08
+
+### Fixed
+- ✅ Bulutluluk, Görüş Mesafesi ve Yağış sensörleri artık doğru değerleri gösteriyor
+- ✅ Sensor alan adları düzeltildi (gorus, yagis, kapalilik)
+
 ## [1.1.0] - 2026-02-08
 
 ### Added
