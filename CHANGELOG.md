@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.1.0] - 2026-02-08
+
+### Added
+- ✨ **Ayarlar menüsü** - Güncelleme sıklığını ayarlardan değiştirebilme (5, 10, 15, 30, 60 dakika)
+- ✨ **Min/Max sıcaklık** - Weather kartında bugünün min/max sıcaklıkları gösteriliyor
+- ✨ **Yağış bilgisi** - Saatlik yağış miktarı eklendi
+
+### Changed
+- Güncelleme sıklığı artık yapılandırılabilir
+
 ## [1.0.4] - 2026-02-08
 
 ### Changed
