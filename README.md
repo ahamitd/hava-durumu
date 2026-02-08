@@ -9,10 +9,11 @@ Türkiye Meteoroloji Genel Müdürlüğü (MGM) verilerini kullanan Home Assista
 - 🌡️ Anlık hava durumu bilgileri
 - 📅 5 günlük tahmin (min/max sıcaklık)
 - ⏰ Saatlik tahmin
-- 💧 13 farklı sensör (sıcaklık, nem, rüzgar, basınç, yağış, uyarılar, vb.)
+- 💧 16 farklı sensör (sıcaklık, nem, rüzgar, basınç, yağış, tahminler, uyarılar, vb.)
 - ⚠️ Meteorolojik uyarılar ve otomatik bildirimler
 - ⚙️ Yapılandırılabilir güncelleme sıklığı (5-60 dakika)
 - 🇹🇷 Türkçe ve İngilizce dil desteği
+- 🔮 Bugün ve yarın hava durumu tahminleri
 
 ## Kurulum
 
@@ -54,14 +55,19 @@ Entegrasyon aşağıdaki sensörleri oluşturur:
 - `sensor.ILCE_IL_sicaklik` - Sıcaklık (°C)
 - `sensor.ILCE_IL_nem` - Nem oranı (%)
 - `sensor.ILCE_IL_ruzgar_hizi` - Rüzgar hızı (km/h)
-- `sensor.ILCE_IL_ruzgar_yonu` - Rüzgar yönü (°)
+- `sensor.ILCE_IL_ruzgar_yonu` - Rüzgar yönü (K, KB, D, GD, G, GB, B, KB)
 - `sensor.ILCE_IL_basinc` - Hava basıncı (hPa)
 - `sensor.ILCE_IL_gorus_mesafesi` - Görüş mesafesi (m)
+- `sensor.ILCE_IL_precipitation_current` - Anlık yağış (mm)
 - `sensor.ILCE_IL_yagis_1_saat` - Son 1 saat yağış (mm)
 - `sensor.ILCE_IL_yagis_24_saat` - Son 24 saat yağış (mm)
 - `sensor.ILCE_IL_bulutluluk` - Bulutluluk (okta)
 - `sensor.ILCE_IL_hissedilen_sicaklik` - Hissedilen sıcaklık (°C)
 - `sensor.ILCE_IL_hava_durumu` - Hava durumu açıklaması
+- `sensor.ILCE_IL_uyari_sayisi` - Aktif uyarı sayısı
+- `sensor.ILCE_IL_uyari_detaylari` - Uyarı detayları
+- `sensor.ILCE_IL_forecast_today` - Bugün hava tahmini (Güneşli, Yağmurlu, Karlı vb.)
+- `sensor.ILCE_IL_forecast_tomorrow` - Yarın hava tahmini
 
 ### Hava Durumu Uyarıları
 

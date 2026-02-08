@@ -1,5 +1,29 @@
 # Changelog
 
+## [1.4.1] - 2026-02-08
+
+### Fixed
+- ✅ Görüş mesafesi ve bulutluluk sensörlerinin bazı konumlarda "bilinmeyen" görünme sorunu düzeltildi
+
+## [1.4.0] - 2026-02-08
+
+### Added
+- ✨ **Bugün Hava Tahmini Sensörü** - `sensor.ILCE_IL_forecast_today` (Bugünün hava durumu tahmini: Güneşli, Yağmurlu, Karlı vb.)
+- ✨ **Yarın Hava Tahmini Sensörü** - `sensor.ILCE_IL_forecast_tomorrow` (Yarının hava durumu tahmini)
+- 📊 Tahmin sensörlerinde min/max sıcaklık ve tarih bilgisi attribute'larda
+
+## [1.3.1] - 2026-02-08
+
+### Added
+- ✨ **Anlık Yağış Sensörü** - `sensor.ILCE_IL_precipitation_current` (MGM uygulamasındaki ana yağış değeri)
+
+### Changed
+- 🧭 **Rüzgar Yönü** - Artık derece yerine Türkçe yön kısaltmaları gösteriyor (K, KB, D, GD, G, GB, B, KB)
+- 📊 Rüzgar yönü sensörü attribute'larına tam derece değeri ve uzun yön adı eklendi
+
+### Fixed
+- ✅ MGM uygulamasıyla yağış değeri tutarsızlığı düzeltildi
+
 ## [1.3.0] - 2026-02-08
 
 ### Added

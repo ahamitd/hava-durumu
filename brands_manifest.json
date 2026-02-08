@@ -1,0 +1,6 @@
+{
+    "domain": "hava_durumu",
+    "name": "Hava Durumu",
+    "integration_type": "hub",
+    "iot_class": "cloud_polling"
+}

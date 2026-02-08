@@ -29,6 +29,31 @@ from .coordinator import HavaDurumuDataUpdateCoordinator
 _LOGGER = logging.getLogger(__name__)
 
 
+def get_wind_direction_text(degrees: float | None) -> str | None:
+    """Convert wind bearing degrees to Turkish cardinal direction.
+    
+    Args:
+        degrees: Wind bearing in degrees (0-360)
+        
+    Returns:
+        Turkish direction abbreviation (K, KB, D, GD, G, GB, B, KB) or None
+    """
+    if degrees is None:
+        return None
+    
+    from .const import WIND_DIRECTIONS
+    
+    # Normalize degrees to 0-360 range
+    degrees = degrees % 360
+    
+    # Find matching direction range
+    for (min_deg, max_deg), direction in WIND_DIRECTIONS.items():
+        if min_deg <= degrees < max_deg:
+            return direction
+    
+    return None
+
+
 @dataclass(frozen=True)
 class HavaDurumuSensorEntityDescription(SensorEntityDescription):
     """Describes Hava Durumu sensor entity."""
@@ -64,10 +89,8 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
     HavaDurumuSensorEntityDescription(
         key="wind_bearing",
         translation_key="wind_bearing",
-        native_unit_of_measurement="°",
         icon="mdi:compass",
-        state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("ruzgarYon"),
+        value_fn=lambda data: get_wind_direction_text(data.get("ruzgarYon")),
     ),
     HavaDurumuSensorEntityDescription(
         key="pressure",
@@ -83,7 +106,16 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement=UnitOfLength.METERS,
         device_class=SensorDeviceClass.DISTANCE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("gorus") if data.get("gorus") and data.get("gorus") != -9999 else None,
+        value_fn=lambda data: data.get("gorus") if data.get("gorus") is not None and data.get("gorus") != -9999 and data.get("gorus") > 0 else None,
+    ),
+    HavaDurumuSensorEntityDescription(
+        key="precipitation_current",
+        translation_key="precipitation_current",
+        native_unit_of_measurement="mm",
+        device_class=SensorDeviceClass.PRECIPITATION,
+        state_class=SensorStateClass.MEASUREMENT,
+        icon="mdi:weather-rainy",
+        value_fn=lambda data: data.get("yagis00Now") if data.get("yagis00Now") and data.get("yagis00Now") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="precipitation_1h",
@@ -109,7 +141,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement="okta",
         icon="mdi:cloud",
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("kapalilik") if data.get("kapalilik") and data.get("kapalilik") != -9999 else None,
+        value_fn=lambda data: data.get("kapalilik") if data.get("kapalilik") is not None and data.get("kapalilik") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="apparent_temperature",
@@ -138,6 +170,18 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         key="alert_details",
         translation_key="alert_details",
         icon="mdi:alert-circle",
+        value_fn=None,  # Will be handled separately
+    ),
+    HavaDurumuSensorEntityDescription(
+        key="forecast_today",
+        translation_key="forecast_today",
+        icon="mdi:calendar-today",
+        value_fn=None,  # Will be handled separately
+    ),
+    HavaDurumuSensorEntityDescription(
+        key="forecast_tomorrow",
+        translation_key="forecast_tomorrow",
+        icon="mdi:calendar-tomorrow",
         value_fn=None,  # Will be handled separately
     ),
 )
@@ -189,6 +233,23 @@ class HavaDurumuSensor(CoordinatorEntity[HavaDurumuDataUpdateCoordinator], Senso
         if not self.coordinator.data:
             return None
         
+        # Handle forecast sensors separately
+        if self.entity_description.key == "forecast_today":
+            daily = self.coordinator.data.get("daily", [])
+            if daily and len(daily) > 0:
+                today = daily[0]
+                hadise_code = today.get("hadise", "")
+                return CONDITION_DESCRIPTIONS.get(hadise_code, hadise_code)
+            return None
+        
+        if self.entity_description.key == "forecast_tomorrow":
+            daily = self.coordinator.data.get("daily", [])
+            if daily and len(daily) > 1:
+                tomorrow = daily[1]
+                hadise_code = tomorrow.get("hadise", "")
+                return CONDITION_DESCRIPTIONS.get(hadise_code, hadise_code)
+            return None
+        
         # Handle alert sensors separately
         if self.entity_description.key == "alert_count":
             alerts = self.coordinator.data.get("alerts", [])
@@ -219,9 +280,60 @@ class HavaDurumuSensor(CoordinatorEntity[HavaDurumuDataUpdateCoordinator], Senso
     
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
-        """Return additional state attributes for alert sensors."""
-        if self.entity_description.key not in ["alert_count", "alert_details"]:
+        """Return additional state attributes for special sensors."""
+        if self.entity_description.key not in ["alert_count", "alert_details", "wind_bearing", "forecast_today", "forecast_tomorrow"]:
             return {}
+        
+        if not self.coordinator.data:
+            return {}
+        
+        # Handle forecast attributes
+        if self.entity_description.key == "forecast_today":
+            daily = self.coordinator.data.get("daily", [])
+            if daily and len(daily) > 0:
+                today = daily[0]
+                return {
+                    "date": today.get("tarih"),
+                    "min_temp": today.get("enDusuk"),
+                    "max_temp": today.get("enYuksek"),
+                    "condition_code": today.get("hadise"),
+                }
+            return {}
+        
+        if self.entity_description.key == "forecast_tomorrow":
+            daily = self.coordinator.data.get("daily", [])
+            if daily and len(daily) > 1:
+                tomorrow = daily[1]
+                return {
+                    "date": tomorrow.get("tarih"),
+                    "min_temp": tomorrow.get("enDusuk"),
+                    "max_temp": tomorrow.get("enYuksek"),
+                    "condition_code": tomorrow.get("hadise"),
+                }
+            return {}
+        
+        # Handle wind bearing attributes
+        if self.entity_description.key == "wind_bearing":
+            from .const import WIND_DIRECTION_NAMES
+            
+            current = self.coordinator.data.get("current")
+            if not current:
+                return {}
+            
+            degrees = current.get("ruzgarYon")
+            if degrees is None:
+                return {}
+            
+            attrs: dict[str, Any] = {
+                "degrees": degrees,
+            }
+            
+            # Add full direction name
+            direction_abbr = get_wind_direction_text(degrees)
+            if direction_abbr:
+                attrs["direction_full"] = WIND_DIRECTION_NAMES.get(direction_abbr, "")
+            
+            return attrs
         
         if not self.coordinator.data:
             return {}

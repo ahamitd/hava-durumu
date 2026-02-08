@@ -57,6 +57,9 @@
             "visibility": {
                 "name": "Görüş Mesafesi"
             },
+            "precipitation_current": {
+                "name": "Anlık Yağış"
+            },
             "precipitation_1h": {
                 "name": "Yağış (1 Saat)"
             },
@@ -77,6 +80,12 @@
             },
             "alert_details": {
                 "name": "Uyarı Detayları"
+            },
+            "forecast_today": {
+                "name": "Bugün Hava Tahmini"
+            },
+            "forecast_tomorrow": {
+                "name": "Yarın Hava Tahmini"
             }
         },
         "binary_sensor": {

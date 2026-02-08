@@ -43,6 +43,9 @@
             "visibility": {
                 "name": "Visibility"
             },
+            "precipitation_current": {
+                "name": "Current Precipitation"
+            },
             "precipitation_1h": {
                 "name": "Precipitation (1 Hour)"
             },
@@ -57,6 +60,18 @@
             },
             "condition_text": {
                 "name": "Weather Condition"
+            },
+            "alert_count": {
+                "name": "Alert Count"
+            },
+            "alert_details": {
+                "name": "Alert Details"
+            },
+            "forecast_today": {
+                "name": "Today's Forecast"
+            },
+            "forecast_tomorrow": {
+                "name": "Tomorrow's Forecast"
             }
         },
         "binary_sensor": {
