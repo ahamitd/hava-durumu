@@ -7,10 +7,11 @@ Türkiye Meteoroloji Genel Müdürlüğü (MGM) verilerini kullanan Home Assista
 ## Özellikler
 
 - 🌡️ Anlık hava durumu bilgileri
-- 📅 5 günlük tahmin
+- 📅 5 günlük tahmin (min/max sıcaklık)
 - ⏰ Saatlik tahmin
 - 💧 10 farklı sensör (nem, rüzgar, basınç, yağış, vb.)
-- ⚠️ Meteorolojik uyarılar ve bildirimler
+- ⚠️ Meteorolojik uyarılar ve otomatik bildirimler
+- ⚙️ Yapılandırılabilir güncelleme sıklığı (5-60 dakika)
 - 🇹🇷 Türkçe ve İngilizce dil desteği
 
 ## Kurulum
@@ -61,20 +62,94 @@ Entegrasyon aşağıdaki sensörleri oluşturur:
 - `sensor.ILCE_IL_hissedilen_sicaklik` - Hissedilen sıcaklık (°C)
 - `sensor.ILCE_IL_hava_durumu` - Hava durumu açıklaması
 
-### Uyarı Otomasyonu
+### Hava Durumu Uyarıları
+
+Entegrasyon, MGM'den gelen meteorolojik uyarıları otomatik olarak takip eder ve bildirim gönderir.
+
+#### Binary Sensor
+
+`binary_sensor.ILCE_IL_hava_durumu_uyarisi` - Aktif uyarı olduğunda **ON** durumuna geçer.
+
+**Attributes (Özellikler):**
+- `alert_count`: Toplam aktif uyarı sayısı
+- `last_alert`: En son uyarının başlığı
+- `alerts`: Tüm uyarıların detaylı listesi
+
+#### Uyarı Detaylarını Görmek
+
+**1. Basit Yöntem:**
+- Sensöre tıklayın → **Attributes** sekmesine bakın
+
+**2. Lovelace Kartı ile:**
 
 ```yaml
-alias: Hava Durumu Uyarısı
-trigger:
-  - platform: state
-    entity_id: binary_sensor.ILCE_IL_hava_durumu_uyarisi
-    to: "on"
-action:
-  - service: notify.mobile_app
-    data:
-      title: "⚠️ Hava Durumu Uyarısı"
-      message: "{{ state_attr('binary_sensor.ILCE_IL_hava_durumu_uyarisi', 'last_alert') }}"
+type: markdown
+content: |
+  {% if is_state('binary_sensor.ILCE_IL_hava_durumu_uyarisi', 'on') %}
+  ## 🚨 Aktif Hava Durumu Uyarıları
+  
+  **Toplam:** {{ state_attr('binary_sensor.ILCE_IL_hava_durumu_uyarisi', 'alert_count') }} uyarı
+  
+  ---
+  
+  {% for alert in state_attr('binary_sensor.ILCE_IL_hava_durumu_uyarisi', 'alerts') %}
+  ### ⚠️ {{ alert.title }}
+  - **Tür:** {{ alert.type }}
+  - **Tarih:** {{ alert.date }}
+  {% if alert.description %}
+  - **Açıklama:** {{ alert.description }}
+  {% endif %}
+  
+  ---
+  {% endfor %}
+  {% else %}
+  ## ✅ Aktif Uyarı Yok
+  {% endif %}
+title: Hava Durumu Uyarıları
 ```
+
+#### Otomatik Bildirimler
+
+Entegrasyon, yeni uyarı geldiğinde **otomatik olarak** Home Assistant bildirimi oluşturur:
+- 🔔 Kalıcı bildirim (manuel kapatılana kadar kalır)
+- 📱 Bildirim başlığı: "🌩️ Hava Durumu Uyarısı - İlçe, İl"
+- 📝 İlk 3 uyarının detayları gösterilir
+
+**Bildirimleri görmek için:**
+Ayarlar → Bildirimler (veya sağ üst köşedeki zil ikonu)
+
+#### Mobil Bildirim Otomasyonu
+
+```yaml
+automation:
+  - alias: "Hava Durumu Uyarısı - Mobil Bildirim"
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.ILCE_IL_hava_durumu_uyarisi
+        to: "on"
+    action:
+      - service: notify.mobile_app_your_phone
+        data:
+          title: "⚠️ Hava Durumu Uyarısı"
+          message: >
+            {{ state_attr('binary_sensor.ILCE_IL_hava_durumu_uyarisi', 'last_alert') }}
+          data:
+            priority: high
+            ttl: 0
+```
+
+## Ayarlar
+
+### Güncelleme Sıklığı
+
+Entegrasyon ayarlarından güncelleme sıklığını değiştirebilirsiniz:
+
+1. **Ayarlar** → **Cihazlar ve Servisler** → **Hava Durumu**
+2. **Yapılandır** butonuna tıklayın
+3. Güncelleme sıklığını seçin (5, 10, 15, 30, 60 dakika)
+4. Kaydet
+
+**Not:** Varsayılan güncelleme sıklığı 30 dakikadır.
 
 ## Veri Kaynağı
 
