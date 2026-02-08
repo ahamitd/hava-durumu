@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.5.1] - 2026-02-08
+
+### Fixed
+- ✅ **Basınç Sensörü** - Artık -9999 hPa gibi geçersiz değerler gösterilmiyor
+- ✅ **Nem Sensörü** - Geçersiz değerler filtreleniyor
+- ✅ **Rüzgar Hızı** - Geçersiz değerler filtreleniyor
+- ✅ **Hissedilen Sıcaklık** - Geçersiz değerler filtreleniyor
+- 🔧 Tüm sayısal sensörlere -9999 değer kontrolü eklendi
+
 ## [1.5.0] - 2026-02-08
 
 ### Added

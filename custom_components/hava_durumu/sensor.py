@@ -76,7 +76,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement=PERCENTAGE,
         device_class=SensorDeviceClass.HUMIDITY,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("nem"),
+        value_fn=lambda data: data.get("nem") if data.get("nem") is not None and data.get("nem") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="wind_speed",
@@ -84,7 +84,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement=UnitOfSpeed.KILOMETERS_PER_HOUR,
         device_class=SensorDeviceClass.WIND_SPEED,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("ruzgarHiz"),
+        value_fn=lambda data: data.get("ruzgarHiz") if data.get("ruzgarHiz") is not None and data.get("ruzgarHiz") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="wind_bearing",
@@ -98,7 +98,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement=UnitOfPressure.HPA,
         device_class=SensorDeviceClass.ATMOSPHERIC_PRESSURE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("denizeIndirgenmisBasinc"),
+        value_fn=lambda data: data.get("denizeIndirgenmisBasinc") if data.get("denizeIndirgenmisBasinc") is not None and data.get("denizeIndirgenmisBasinc") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="visibility",
@@ -149,7 +149,7 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         native_unit_of_measurement=UnitOfTemperature.CELSIUS,
         device_class=SensorDeviceClass.TEMPERATURE,
         state_class=SensorStateClass.MEASUREMENT,
-        value_fn=lambda data: data.get("hissedilenSicaklik"),
+        value_fn=lambda data: data.get("hissedilenSicaklik") if data.get("hissedilenSicaklik") is not None and data.get("hissedilenSicaklik") != -9999 else None,
     ),
     HavaDurumuSensorEntityDescription(
         key="condition_text",
