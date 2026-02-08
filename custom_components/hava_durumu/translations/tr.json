@@ -1,0 +1,68 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "İl Seçimi",
+                "description": "Hava durumu bilgisi almak istediğiniz ili seçin.",
+                "data": {
+                    "province": "İl"
+                }
+            },
+            "district": {
+                "title": "İlçe Seçimi",
+                "description": "{province} ilinin ilçesini seçin.",
+                "data": {
+                    "district": "İlçe"
+                }
+            }
+        },
+        "error": {
+            "cannot_connect": "MGM API'sine bağlanılamadı",
+            "invalid_province": "Geçersiz il seçimi",
+            "invalid_district": "Geçersiz ilçe seçimi",
+            "unknown": "Beklenmeyen bir hata oluştu"
+        },
+        "abort": {
+            "already_configured": "Bu konum zaten yapılandırılmış"
+        }
+    },
+    "entity": {
+        "sensor": {
+            "humidity": {
+                "name": "Nem"
+            },
+            "wind_speed": {
+                "name": "Rüzgar Hızı"
+            },
+            "wind_bearing": {
+                "name": "Rüzgar Yönü"
+            },
+            "pressure": {
+                "name": "Basınç"
+            },
+            "visibility": {
+                "name": "Görüş Mesafesi"
+            },
+            "precipitation_1h": {
+                "name": "Yağış (1 Saat)"
+            },
+            "precipitation_24h": {
+                "name": "Yağış (24 Saat)"
+            },
+            "cloud_coverage": {
+                "name": "Bulutluluk"
+            },
+            "apparent_temperature": {
+                "name": "Hissedilen Sıcaklık"
+            },
+            "condition_text": {
+                "name": "Hava Durumu"
+            }
+        },
+        "binary_sensor": {
+            "weather_alert": {
+                "name": "Hava Durumu Uyarısı"
+            }
+        }
+    }
+}

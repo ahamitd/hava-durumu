@@ -1,0 +1,68 @@
+{
+    "config": {
+        "step": {
+            "user": {
+                "title": "Province Selection",
+                "description": "Select the province for weather data.",
+                "data": {
+                    "province": "Province"
+                }
+            },
+            "district": {
+                "title": "District Selection",
+                "description": "Select the district in {province}.",
+                "data": {
+                    "district": "District"
+                }
+            }
+        },
+        "error": {
+            "cannot_connect": "Failed to connect to MGM API",
+            "invalid_province": "Invalid province selected",
+            "invalid_district": "Invalid district selected",
+            "unknown": "Unexpected error"
+        },
+        "abort": {
+            "already_configured": "This location is already configured"
+        }
+    },
+    "entity": {
+        "sensor": {
+            "humidity": {
+                "name": "Humidity"
+            },
+            "wind_speed": {
+                "name": "Wind Speed"
+            },
+            "wind_bearing": {
+                "name": "Wind Direction"
+            },
+            "pressure": {
+                "name": "Pressure"
+            },
+            "visibility": {
+                "name": "Visibility"
+            },
+            "precipitation_1h": {
+                "name": "Precipitation (1 Hour)"
+            },
+            "precipitation_24h": {
+                "name": "Precipitation (24 Hours)"
+            },
+            "cloud_coverage": {
+                "name": "Cloud Coverage"
+            },
+            "apparent_temperature": {
+                "name": "Feels Like"
+            },
+            "condition_text": {
+                "name": "Weather Condition"
+            }
+        },
+        "binary_sensor": {
+            "weather_alert": {
+                "name": "Weather Alert"
+            }
+        }
+    }
+}

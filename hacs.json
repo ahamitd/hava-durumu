@@ -1,0 +1,9 @@
+{
+    "name": "Hava Durumu",
+    "render_readme": true,
+    "domains": [
+        "weather",
+        "sensor",
+        "binary_sensor"
+    ]
+}
