@@ -146,7 +146,8 @@ class HavaDurumuAlertSensor(
                 if area:
                     title_parts.append(area)
                 title = " - ".join(title_parts) if title_parts else "MeteoAlarm"
-                message_parts.append(f"🚨 **MeteoAlarm - {title}**{f'\n{desc}' if desc else ''}")
+                desc_text = f"\n{desc}" if desc else ""
+                message_parts.append(f"🚨 **MeteoAlarm - {title}**{desc_text}")
         
         if message_parts:
             message = "\n\n".join(message_parts)
