@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.0.2] - 2026-02-08
+
+### Fixed
+- Tüm ilçeler artık gösteriliyor (önceden sadece il merkezleri geliyordu)
+- Config flow arama endpoint'ini kullanacak şekilde güncellendi
+
 ## [1.0.1] - 2026-02-08
 
 ### Fixed
