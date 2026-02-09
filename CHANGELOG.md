@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.6.2] - 2026-02-09
+
+### Fixed
+- ✅ **Ayarlar AttributeError Düzeltildi** - `property 'config_entry' has no setter` hatası kesin olarak giderildi.
+
 ## [1.6.1] - 2026-02-09
 
 ### Fixed
