@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.6.0] - 2026-02-09
+
+### Added
+- ✨ **Manuel Güncelleme Butonu** - `button.ILCE_IL_guncelle` (Tüm verileri anında günceller)
+- ✨ **Bildirim Durumu Sensörü** - `sensor.ILCE_IL_notification_status` (Bildirim ayarının durumunu gösterir: Açık/Kapalı)
+- ✨ **24 Saatlik Yağmur Tahmini** - `sensor.ILCE_IL_rain_forecast_24h` (Önümüzdeki 24 saatte yağmur yağıp yağmayacağını gösterir)
+- ✨ **24 Saatlik Kar Tahmini** - `sensor.ILCE_IL_snow_forecast_24h` (Önümüzdeki 24 saatte kar yağıp yağmayacağını gösterir)
+- ⚙️ **Bildirim Ayarı** - Uyarı bildirimlerini açıp kapatma seçeneği eklendi
+
+### Fixed
+- ✅ **Otomatik Güncelleme** - 30 dakikalık güncelleme aralığı artık düzgün çalışıyor
+- ✅ **Ayarlar 500 Hatası** - Options flow'daki 500 Internal Server Error düzeltildi
+- ✅ **Güncelleme Senkronizasyonu** - Güncelleme yapıldığında tüm sensörler birlikte güncelleniyor
+
+### Removed
+- 🗑️ **Uyarı Sayısı Sensörü** - Gereksiz `sensor.ILCE_IL_alert_count` sensörü kaldırıldı (Bilgi zaten binary_sensor'de mevcut)
+
+### Changed
+- 🔧 Config flow güncelleme aralığı integer olarak saklanıyor (string yerine)
+- 📊 Button platform eklendi (PLATFORMS listesine)
+
 ## [1.5.1] - 2026-02-08
 
 ### Fixed

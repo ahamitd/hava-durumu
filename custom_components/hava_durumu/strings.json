@@ -29,10 +29,11 @@
     "options": {
         "step": {
             "init": {
-                "title": "Ayarlar",
-                "description": "Hava Durumu entegrasyonu ayarları",
+                "title": "Settings",
+                "description": "Hava Durumu integration settings",
                 "data": {
-                    "update_interval": "Güncelleme Sıklığı"
+                    "update_interval": "Update Interval",
+                    "enable_notifications": "Alert Notifications"
                 }
             }
         }
@@ -72,16 +73,27 @@
             "condition_text": {
                 "name": "Weather Condition"
             },
-            "alert_count": {
-                "name": "Alert Count"
-            },
             "alert_details": {
                 "name": "Alert Details"
+            },
+            "notification_status": {
+                "name": "Notification Status"
+            },
+            "rain_forecast_24h": {
+                "name": "Rain in 24 Hours"
+            },
+            "snow_forecast_24h": {
+                "name": "Snow in 24 Hours"
             }
         },
         "binary_sensor": {
             "weather_alert": {
                 "name": "Weather Alert"
+            }
+        },
+        "button": {
+            "refresh": {
+                "name": "Refresh"
             }
         }
     }

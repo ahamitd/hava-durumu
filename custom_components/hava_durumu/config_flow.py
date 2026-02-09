@@ -184,18 +184,17 @@ class HavaDurumuOptionsFlow(config_entries.OptionsFlow):
         if user_input is not None:
             return self.async_create_entry(title="", data=user_input)
 
-        # Update interval options (in minutes)
+        # Update interval options (in seconds, not minutes)
         update_intervals = {
-            "300": "5 dakika",
-            "600": "10 dakika",
-            "900": "15 dakika",
-            "1800": "30 dakika",
-            "3600": "60 dakika",
+            300: "5 dakika",
+            600: "10 dakika",
+            900: "15 dakika",
+            1800: "30 dakika",
+            3600: "60 dakika",
         }
 
-        current_interval = str(
-            self.config_entry.options.get("update_interval", 1800)
-        )
+        current_interval = self.config_entry.options.get("update_interval", 1800)
+        current_notifications = self.config_entry.options.get("enable_notifications", True)
 
         return self.async_show_form(
             step_id="init",
@@ -205,6 +204,10 @@ class HavaDurumuOptionsFlow(config_entries.OptionsFlow):
                         "update_interval",
                         default=current_interval,
                     ): vol.In(update_intervals),
+                    vol.Required(
+                        "enable_notifications",
+                        default=current_notifications,
+                    ): bool,
                 }
             ),
         )

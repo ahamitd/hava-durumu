@@ -123,6 +123,11 @@ class HavaDurumuAlertSensor(
 
     def _create_alert_notification(self) -> None:
         """Create a persistent notification for new alerts."""
+        # Check if notifications are enabled in options
+        enable_notifications = self._entry.options.get("enable_notifications", True)
+        if not enable_notifications:
+            return
+        
         alerts = self.coordinator.data.get("alerts", [])
         meteoalarm = self.coordinator.data.get("meteoalarm", [])
         

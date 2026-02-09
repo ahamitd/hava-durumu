@@ -160,16 +160,27 @@ SENSOR_DESCRIPTIONS: tuple[HavaDurumuSensorEntityDescription, ...] = (
         ),
     ),
     HavaDurumuSensorEntityDescription(
-        key="alert_count",
-        translation_key="alert_count",
-        icon="mdi:alert",
-        state_class=SensorStateClass.MEASUREMENT,
-        value_fn=None,  # Will be handled separately
-    ),
-    HavaDurumuSensorEntityDescription(
         key="alert_details",
         translation_key="alert_details",
         icon="mdi:alert-circle",
+        value_fn=None,  # Will be handled separately
+    ),
+    HavaDurumuSensorEntityDescription(
+        key="notification_status",
+        translation_key="notification_status",
+        icon="mdi:bell",
+        value_fn=None,  # Will be handled separately
+    ),
+    HavaDurumuSensorEntityDescription(
+        key="rain_forecast_24h",
+        translation_key="rain_forecast_24h",
+        icon="mdi:weather-rainy",
+        value_fn=None,  # Will be handled separately
+    ),
+    HavaDurumuSensorEntityDescription(
+        key="snow_forecast_24h",
+        translation_key="snow_forecast_24h",
+        icon="mdi:weather-snowy",
         value_fn=None,  # Will be handled separately
     ),
     HavaDurumuSensorEntityDescription(
@@ -219,6 +230,7 @@ class HavaDurumuSensor(CoordinatorEntity[HavaDurumuDataUpdateCoordinator], Senso
         """Initialize the sensor."""
         super().__init__(coordinator)
         self.entity_description = description
+        self._entry = entry
         self._attr_unique_id = f"{entry.data['merkez_id']}_{description.key}"
         self._attr_device_info = {
             "identifiers": {(DOMAIN, str(entry.data["merkez_id"]))},
@@ -250,11 +262,45 @@ class HavaDurumuSensor(CoordinatorEntity[HavaDurumuDataUpdateCoordinator], Senso
                 return CONDITION_DESCRIPTIONS.get(hadise_code, hadise_code)
             return None
         
+        
+        # Handle weather prediction sensors
+        if self.entity_description.key == "rain_forecast_24h":
+            hourly = self.coordinator.data.get("hourly", [])
+            if not hourly:
+                return "Bilinmiyor"
+            
+            # Rain condition codes
+            rain_codes = ["HY", "Y", "KY", "MSY", "HSY", "SY", "KSY", "GSY", "KGY", "HHY"]
+            
+            # Check next 24 hours (hourly data)
+            for hour_data in hourly[:24]:
+                hadise = hour_data.get("hadise", "")
+                if hadise in rain_codes:
+                    return "Yağacak"
+            
+            return "Yağmayacak"
+        
+        if self.entity_description.key == "snow_forecast_24h":
+            hourly = self.coordinator.data.get("hourly", [])
+            if not hourly:
+                return "Bilinmiyor"
+            
+            # Snow condition codes
+            snow_codes = ["HKY", "K", "YKY", "KKY"]
+            
+            # Check next 24 hours (hourly data)
+            for hour_data in hourly[:24]:
+                hadise = hour_data.get("hadise", "")
+                if hadise in snow_codes:
+                    return "Yağacak"
+            
+            return "Yağmayacak"
+        
         # Handle alert sensors separately
-        if self.entity_description.key == "alert_count":
-            alerts = self.coordinator.data.get("alerts", [])
-            meteoalarm = self.coordinator.data.get("meteoalarm", [])
-            return len(alerts) + len(meteoalarm)
+        if self.entity_description.key == "notification_status":
+            # Get notification setting from options
+            enable_notifications = self._entry.options.get("enable_notifications", True)
+            return "Açık" if enable_notifications else "Kapalı"
         
         if self.entity_description.key == "alert_details":
             alerts = self.coordinator.data.get("alerts", [])
@@ -281,7 +327,7 @@ class HavaDurumuSensor(CoordinatorEntity[HavaDurumuDataUpdateCoordinator], Senso
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
         """Return additional state attributes for special sensors."""
-        if self.entity_description.key not in ["alert_count", "alert_details", "wind_bearing", "forecast_today", "forecast_tomorrow"]:
+        if self.entity_description.key not in ["alert_details", "wind_bearing", "forecast_today", "forecast_tomorrow"]:
             return {}
         
         if not self.coordinator.data:

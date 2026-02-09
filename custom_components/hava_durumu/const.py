@@ -44,6 +44,7 @@ CONF_PROVINCE = "province"
 CONF_DISTRICT = "district"
 CONF_MERKEZ_ID = "merkez_id"
 CONF_STATION_ID = "station_id"
+CONF_ENABLE_NOTIFICATIONS = "enable_notifications"
 
 # Platforms
 PLATFORMS = ["weather", "sensor", "binary_sensor"]

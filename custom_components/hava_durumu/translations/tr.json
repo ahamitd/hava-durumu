@@ -32,7 +32,8 @@
                 "title": "Ayarlar",
                 "description": "Hava Durumu entegrasyonu ayarları",
                 "data": {
-                    "update_interval": "Güncelleme Sıklığı"
+                    "update_interval": "Güncelleme Sıklığı",
+                    "enable_notifications": "Uyarı Bildirimleri"
                 }
             }
         }
@@ -75,11 +76,17 @@
             "condition_text": {
                 "name": "Hava Durumu"
             },
-            "alert_count": {
-                "name": "Uyarı Sayısı"
-            },
             "alert_details": {
                 "name": "Uyarı Detayları"
+            },
+            "notification_status": {
+                "name": "Bildirim Durumu"
+            },
+            "rain_forecast_24h": {
+                "name": "24 Saat İçinde Yağmur"
+            },
+            "snow_forecast_24h": {
+                "name": "24 Saat İçinde Kar"
             },
             "forecast_today": {
                 "name": "Bugün Hava Tahmini"
@@ -91,6 +98,11 @@
         "binary_sensor": {
             "weather_alert": {
                 "name": "Hava Durumu Uyarısı"
+            }
+        },
+        "button": {
+            "refresh": {
+                "name": "Güncelle"
             }
         }
     }
