@@ -42,13 +42,24 @@ class HavaDurumuDataUpdateCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
     async def _async_update_data(self) -> dict[str, Any]:
         """Fetch data from MGM API."""
+        _LOGGER.debug(
+            "Fetching MGM weather data for %s (interval: %s)",
+            self.location_name,
+            self.update_interval,
+        )
         try:
-            data = await self.api.get_all_data(self.merkez_id)
+            new_data = await self.api.get_all_data(self.merkez_id)
             
-            if data.get("current") is None:
-                _LOGGER.warning("No current weather data received")
+            # If we already have data and the new current data is None (304), 
+            # keep the old data for current weather to avoid "unknown" state
+            if self.data and new_data.get("current") is None:
+                _LOGGER.debug("API returned no update for current weather, keeping old data")
+                new_data["current"] = self.data.get("current")
             
-            return data
+            if new_data.get("current") is None:
+                _LOGGER.warning("No current weather data received for %s", self.location_name)
+            
+            return new_data
             
         except MGMApiError as err:
             raise UpdateFailed(f"Error fetching MGM data: {err}") from err

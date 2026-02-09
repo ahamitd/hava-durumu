@@ -44,6 +44,8 @@ class MGMApiClient:
             "User-Agent": API_USER_AGENT,
             "Accept-Language": "tr-TR;q=1.0, en-TR;q=0.9",
             "Accept-Encoding": "gzip",
+            "Cache-Control": "no-cache",
+            "Pragma": "no-cache",
         }
 
     async def _request(
@@ -57,7 +59,7 @@ class MGMApiClient:
                 url, headers=self._headers, params=params, timeout=30
             ) as response:
                 if response.status == 304:
-                    # Not modified, use cached data
+                    _LOGGER.debug("API returned 304 for %s", url)
                     return None
                     
                 if response.status != 200:
@@ -68,7 +70,9 @@ class MGMApiClient:
                     )
                     raise MGMApiError(f"API request failed with status {response.status}")
                 
-                return await response.json()
+                data = await response.json()
+                _LOGGER.debug("API response for %s: %s", url, "success")
+                return data
                 
         except asyncio.TimeoutError as err:
             _LOGGER.error("API request timeout: %s", url)

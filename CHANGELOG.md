@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.4] - 2026-02-09
+
+### Fixed
+- 🔄 **Güncelleme Senkronizasyonu** - API caching sorunlarını önlemek için 'no-cache' headers eklendi
+- 💾 **Veri Koruma** - API tarafından yeni veri dönülmediğinde (304) eski verilerin korunması sağlandı
+- 🔍 **Hata Ayıklama** - Güncelleme süreçleri için detaylı debug logları eklendi
+
 ## [1.6.3] - 2026-02-09
 
 ### Fixed
