@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.6.1] - 2026-02-09
+
+### Fixed
+- ✅ **Ayarlar 500 Hatası** - Veri tipi uyuşmazlığı nedeniyle oluşan hataya yönelik kesin çözüm uygulandı
+
 ## [1.6.0] - 2026-02-09
 
 ### Added
