@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.6.3] - 2026-02-09
+
+### Fixed
+- ✅ **Ayarlar Kesin Çözüm** - `TypeError: object.__init__()` hatası giderildi. Farklı Home Assistant sürümleriyle tam uyumluluk sağlandı.
+
 ## [1.6.2] - 2026-02-09
 
 ### Fixed

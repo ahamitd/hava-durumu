@@ -175,7 +175,7 @@ class HavaDurumuOptionsFlow(config_entries.OptionsFlow):
 
     def __init__(self, config_entry: config_entries.ConfigEntry) -> None:
         """Initialize options flow."""
-        super().__init__(config_entry)
+        self._config_entry = config_entry
 
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
@@ -190,7 +190,7 @@ class HavaDurumuOptionsFlow(config_entries.OptionsFlow):
                 {
                     vol.Required(
                         "update_interval",
-                        default=int(self.config_entry.options.get("update_interval", 1800)),
+                        default=int(self._config_entry.options.get("update_interval", 1800)),
                     ): vol.In(
                         {
                             300: "5 dakika",
@@ -202,7 +202,7 @@ class HavaDurumuOptionsFlow(config_entries.OptionsFlow):
                     ),
                     vol.Required(
                         "enable_notifications",
-                        default=self.config_entry.options.get("enable_notifications", True),
+                        default=self._config_entry.options.get("enable_notifications", True),
                     ): bool,
                 }
             ),
